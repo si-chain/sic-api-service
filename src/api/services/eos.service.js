@@ -206,10 +206,10 @@ async function setAccountMobile(name,mobile,country = 86) {
     email:email
   });
 
-  option.value = eccService.encrypt(valStr,sicAccount.sicCommPubKey);
+  option.value = eccService.encrypt(valStr,eccService.privateToPublic(sicAccount.account.creator.priKey));//
 
   let code = sic.contract.account.code;
-  let contract = await getContract(code,sicAccount.account.actPriKey);
+  let contract = await getContract(code,sicAccount.account.accountInfo.priKey);
   return contract.setphone(option,{authorization:code});
 }
 

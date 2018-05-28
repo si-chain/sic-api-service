@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const Policy = require('../models/policy.model');
 
 module.exports = {
 
@@ -13,7 +12,7 @@ module.exports = {
   trustPolicy: {
     body: {
       entity: Joi.string(),
-      type: Joi.string().valid(Policy.types),
+      type: Joi.string(),
       version: Joi.string(),
       header: Joi.string(),
     },

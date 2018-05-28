@@ -52,5 +52,5 @@ resetTokenSchema.statics = {
 /**
  * @typedef ResetToken
  */
-const ResetToken = mongoose.model('ResetToken', resetTokenSchema);
+// const ResetToken = mongoose.model('ResetToken', resetTokenSchema);
 // module.exports = ResetToken;

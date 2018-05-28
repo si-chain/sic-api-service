@@ -1,6 +1,6 @@
 const aqp = require('api-query-params');
 const { handler: errorHandler } = require('../middlewares/error');
-const { eosd } = require('../../config/vars');
+const { eosd,sicAccount } = require('../../config/vars');
 const { sic } = require('../../config/constant');
 const Account = require('../models/account.model');
 const Action = require('../models/action.model');
@@ -91,8 +91,8 @@ exports.faucet = async (req, res, next) => {
 
   if(chainName === 'eos'){
     //eosAccountService.createDawnAccount(req,res,next);
-    const creator = 'eosio';
-    const creatorPrivateKey = '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3';
+    const creator = sicAccount.account.creator.name;
+    const creatorPrivateKey = sicAccount.account.creator.priKey;
 
     const { chainName,accountName, keys } = req.body;
 
@@ -106,9 +106,8 @@ exports.faucet = async (req, res, next) => {
         active: keys.active,
         recovery: creator
       }).then(data => {
-        //发放测试EOS
-
-        eosd.transaction({
+        //send token
+        /*eosd.transaction({
           actions: [
             {
               account: 'sic.token',
@@ -129,7 +128,7 @@ exports.faucet = async (req, res, next) => {
           console.info("transfer success");
         }).catch(e => {
           console.error("transfer error:"+e);
-        });
+        });*/
 
         json.success = true;
         json.code = 200;

@@ -48,11 +48,15 @@ module.exports = {
     }
   },
   sicAccount:{
-    sicCommPubKey: process.env.SIC_COMM_PUB_KEY,
-    sicCommPriKey: process.env.SIC_COMM_PRI_SECRET,
     account:{
-      actPriKey:'5KBTDMFHVzV5oouaMNKzqFjdCdk9PGBDaQJho3ZpmLnRhvPxuAq',
-      actPubKey:'EOS6BPCGwaew3es6sWDLVJHhmafKwnATPmSBKfVwmWFHDT7yCPMhP',
+      accountInfo:{
+        name:   process.env.SIC_ACCOUNT_INFO_NAME,
+        priKey: process.env.SIC_ACCOUNT_INFO_SECRET
+      },
+      creator:{
+        name: process.env.SIC_ACCOUNT_CREATOR,
+        priKey: process.env.SIC_ACCOUNT_CREATOR_SECRET
+      }
     }
   }
   ,
