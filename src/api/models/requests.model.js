@@ -1,14 +1,7 @@
 const mongoose = require('mongoose');
 const httpStatus = require('http-status');
-const { isEmpty, compact, omitBy, isNil } = require('lodash');
-const bcrypt = require('bcryptjs');
-const moment = require('moment-timezone');
-const jwt = require('jwt-simple');
-const uuidv4 = require('uuid/v4');
+const { isEmpty, compact } = require('lodash');
 const APIError = require('../utils/APIError');
-const ResetToken = require('./resetToken.model');
-const RefreshToken = require('./refreshToken.model');
-const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 
 /**
  * User Roles
@@ -91,9 +84,11 @@ requestSchema.statics = {
    *
    * @param {number} skip - Number of entities to be skipped.
    * @param {number} limit - Limit number of entities to be returned.
-   * @param {Object} [sort] - Object w/ keys matching fieldnames to be sorted, values as -1 (desc), 1 (asc)
+   * @param {Object} [sort] - Object w/ keys matching fieldnames
+   * to be sorted, values as -1 (desc), 1 (asc)
    * @param {Object} [filter] - Object matching a Mongoose query object
-   * @param {Object|String} [projection] - Mongoose `select()` arg denoting fields to include or exclude
+   * @param {Object|String} [projection] - Mongoose `select()` arg
+   * denoting fields to include or exclude
    * @returns {Promise<User[]>}
    */
   list({ skip = 0, limit = 30, sort, filter, projection }) {
@@ -138,4 +133,4 @@ requestSchema.statics = {
 /**
  * @typedef User
  */
-module.exports = mongoose.model('Requests', requestSchema);
+// module.exports = mongoose.model('Requests', requestSchema);

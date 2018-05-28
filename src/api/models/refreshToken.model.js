@@ -49,4 +49,4 @@ refreshTokenSchema.statics = {
  * @typedef RefreshToken
  */
 const RefreshToken = mongoose.model('RefreshToken', refreshTokenSchema);
-module.exports = RefreshToken;
+// module.exports = RefreshToken;
