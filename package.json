@@ -1,5 +1,5 @@
 {
-  "name": "api-service",
+  "name": "sic-api-service",
   "version": "1.0.0",
   "description": "Basic REST API Services for SIC",
   "apidoc": {
