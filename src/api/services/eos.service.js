@@ -16,7 +16,7 @@ function getEosd(key){
   if(key != undefined){
     eosConfig.keyProvider = key;
   }
-  return Eos.Testnet(eosConfig);
+  return Eos(eosConfig);
 }
 
 /**
@@ -213,10 +213,44 @@ async function setAccountMobile(name,mobile,country = 86) {
   return contract.setphone(option,{authorization:code});
 }
 
+/**
+ *
+ * @param opt
+ * @returns {Promise<void>}
+ */
+async function newAccount(opt) {
 
+    const creator = opt.creator.name;
+    const creatorPrivateKey = opt.creator.active;
+    const name = opt.name;
+
+    let eos = getEosd(creatorPrivateKey);
+    let data = await eos.transaction((tr) => {
+        tr.newaccount({
+            creator: creator,
+            name: name,
+            owner: opt.owner,
+            active: opt.active,
+        }, { authorization: creator });
+        tr.buyrambytes({
+            payer: creator,
+            receiver: name,
+            bytes: sic.chain.newaccount.ram.bytes,
+        });
+        tr.delegatebw({
+            from: creator,
+            receiver: name,
+            stake_net_quantity: sic.chain.newaccount.net.quantity,
+            stake_cpu_quantity: sic.chain.newaccount.cpu.quantity,
+            transfer: 0,
+        });
+    });
+    return data;
+}
 
 module.exports = {
   getEosd:getEosd,
+  newAccount:newAccount,
   getTable:getTable,
   getPolicyByAccountAndApplyId:getPolicyByAccountAndApplyId,
   submitTrustPolicyReward:submitTrustPolicyReward,

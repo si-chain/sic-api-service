@@ -63,6 +63,7 @@ module.exports = {
   service_name: process.env.SERVICE_NAME,
   mail,
   eosd: {
+    chainId: process.env.EOSD_CONNECTOR_CHAIN_ID,
     uri: process.env.EOSD_CONNECTOR_URI,
   },
   ethUrl:process.env.ETH_CONNECTOR_URI,

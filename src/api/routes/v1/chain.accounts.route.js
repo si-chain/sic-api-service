@@ -2,9 +2,7 @@ const express = require('express');
 const validate = require('express-validation');
 const controller = require('../../controllers/chain.controller');
 const { authorize, ADMIN, LOGGED_USER } = require('../../middlewares/auth');
-const {
-  trustPolicy,
-} = require('../../validations/policy.validation');
+const { createAccount, } = require('../../validations/account.validation');
 
 const router = express.Router();
 
@@ -29,10 +27,11 @@ router
    *
    * @apiParam  {String}             chainName="eos" chainName（eg：eos|eth）
    * @apiParam  {String}             password  password(chainName=eos is required)
-   * @apiParam  {String{1..13}}      accountName  account(chainName=eos is required)
+   * @apiParam  {String{1..12}}      accountName  account(chainName=eos is required)
    * @apiParam  {Object}  keys       chainName=eos is required
    * @apiParam  {String}  keys.active    active key，chainName=eos is required
    * @apiParam  {String}  keys.owner     owner key，chainName=eos is required
+   * @apiParam  {String}  inviteCode     inviteCode invite code
    *
    * @apiParamExample {json} eos request:
    * {
@@ -96,7 +95,7 @@ router
    * }
    *
    */
-  .post(controller.faucet);
+  .post(validate(createAccount),controller.faucet);
 
 
 

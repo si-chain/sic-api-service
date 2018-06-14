@@ -19,19 +19,9 @@ module.exports = {
   // POST /v1/accounts/faucet
   createAccount: {
     body: {
-      name: Joi.string()
-        .min(5)
-        .required(),
-      first_name: Joi.string()
-        .min(1)
-        .required(),
-      last_name: Joi.string()
-        .min(1)
-        .required(),
-      email: Joi.string()
-        .email()
-        .required(),
-      wants_tokens: Joi.bool(),
+      chainName:Joi.string().required(),
+      accountName: Joi.string().min(5).required(),
+      inviteCode: Joi.string(),
       keys: Joi.object({
         active: Joi.string().required(),
         owner: Joi.string().required(),

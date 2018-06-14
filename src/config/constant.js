@@ -13,6 +13,20 @@ module.exports = {
         }
       }
     },
+    chain:{
+      newaccount:{
+        ram: {
+          bytes:4096,
+          eos:'0.0001 SIS'
+        },
+        net: {
+          quantity: '0.0001 SIS',
+        },
+        cpu: {
+          quantity: '0.0001 SIS',
+        },
+      }
+    },
     file:{
       auth:{
         expires: 3600,//auth file an hour

@@ -6,6 +6,7 @@ const Account = require('../models/account.model');
 const Action = require('../models/action.model');
 const Transaction = require('../models/transaction.model');
 const eosService = require('../services/eos.service');
+const configService = require('../services/ConfigService');
 
 
 exports.loadChainInfo = async (req, res, next, chain_name) => {
@@ -74,7 +75,7 @@ exports.loadAccount = async (req, res, next,account_name) => {
  */
 exports.trust = async (req, res, next) => {
   try {
-    console.info("================="+JSON.stringify(req.body));
+    // console.info("================="+JSON.stringify(req.body));
     res.json(req.transform());
   } catch (error) {
     next();
@@ -90,62 +91,41 @@ exports.faucet = async (req, res, next) => {
   //console.debug("body:"+account);
 
   if(chainName === 'eos'){
-    //eosAccountService.createDawnAccount(req,res,next);
+    // eosAccountService.createDawnAccount(req,res,next);
+
+
+    const { accountName, inviteCode, keys } = req.body;
+    let isNeedInvited = configService.getValByKey('KEY_IS_NEED_INVITE_CODE');
+
     const creator = sicAccount.account.creator.name;
     const creatorPrivateKey = sicAccount.account.creator.priKey;
 
-    const { chainName,accountName, keys } = req.body;
-
-    let eosd = eosService.getEosd(creatorPrivateKey)
-    try {
-      let json = {};
-      eosd.newaccount({
-        creator: creator,
+    let opt = {
+        creator: {
+          name: creator,
+          active: creatorPrivateKey,
+        },
         name: accountName,
         owner: keys.owner,
         active: keys.active,
-        recovery: creator
-      }).then(data => {
-        //send token
-        /*eosd.transaction({
-          actions: [
-            {
-              account: 'sic.token',
-              name: 'transfer',
-              authorization: [{
-                actor: creator,
-                permission: 'active'
-              }],
-              data: {
-                from: creator,
-                to: accountName,
-                quantity: '100.0000 SIC',
-                memo: 'faucet'
-              }
-            }
-          ]
-        }).then(r => {
-          console.info("transfer success");
-        }).catch(e => {
-          console.error("transfer error:"+e);
-        });*/
+    };
 
-        json.success = true;
-        json.code = 200;
-        json.data = data;
-
-        res.status(200);
-        res.json(json);
-      }).catch(error =>{
-        json = JSON.parse(error);
-        json.success = false;
-
-        res.status(200);
-        res.json(json);
-      });
-    } catch (error) {
-      return errorHandler(error, req, res);
+    let json = {};
+    json.success = false;
+    json.code = 500;
+    try{
+      let data = await eosService.newAccount(opt);
+      json.success = true;
+      json.code = 200;
+      delete data.transaction;
+      delete data.broadcast;
+      json.data = data;
+    }catch (error){
+      console.error(error);
+      json = JSON.parse(error);
     }
+    res.status(200);
+    res.json(json);
   }else if(chainName === 'eth'){
 
   }
