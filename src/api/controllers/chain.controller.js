@@ -24,7 +24,12 @@ exports.loadAccount = async (req, res, next,account_name) => {
   try {
     //console.info("========loadAccount========="+account_name);
     if(req.locals.isEos){
-      let account = await eosService.getEosd().getAccount(account_name);
+      let account;
+      try {
+          let account = await eosService.getEosd().getAccount(account_name);
+      }catch (error){
+
+      }
 
       if(account){
 
@@ -53,11 +58,10 @@ exports.loadAccount = async (req, res, next,account_name) => {
             account.mobile = info.phone;
             account.email = info.email;
           }
-
           req.locals = {account};
-          next();
         });
       }
+      next();
     }
   } catch (error) {
     return errorHandler(error, req, res);
