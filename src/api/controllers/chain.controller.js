@@ -26,7 +26,7 @@ exports.loadAccount = async (req, res, next,account_name) => {
     if(req.locals.isEos){
       let account;
       try {
-          let account = await eosService.getEosd().getAccount(account_name);
+          account = await eosService.getEosd().getAccount(account_name);
       }catch (error){
 
       }
@@ -59,9 +59,11 @@ exports.loadAccount = async (req, res, next,account_name) => {
             account.email = info.email;
           }
           req.locals = {account};
+          next();
         });
+      }else{
+        next();
       }
-      next();
     }
   } catch (error) {
     return errorHandler(error, req, res);

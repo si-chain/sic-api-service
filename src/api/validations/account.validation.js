@@ -21,7 +21,7 @@ module.exports = {
     body: {
       chainName:Joi.string().required(),
       accountName: Joi.string().min(5).required(),
-      inviteCode: Joi.string(),
+      //inviteCode: Joi.string().min(0).max(6),
       keys: Joi.object({
         active: Joi.string().required(),
         owner: Joi.string().required(),
