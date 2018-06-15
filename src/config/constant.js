@@ -17,13 +17,13 @@ module.exports = {
       newaccount:{
         ram: {
           bytes:4096,
-          eos:'0.0001 SIS'
+          eos:'100.0000 SIS'
         },
         net: {
-          quantity: '0.0001 SIS',
+          quantity: '100.0000 SIS',
         },
         cpu: {
-          quantity: '0.0001 SIS',
+          quantity: '100.0000 SIS',
         },
       }
     },
