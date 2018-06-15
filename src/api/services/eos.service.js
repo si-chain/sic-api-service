@@ -189,7 +189,7 @@ async function setAccountMobile(name,mobile,country = 86) {
   let email = '';
   if(accountInfo != null){
     try{
-      let obj = JSON.parse(eccService.decrypt(accountInfo.value,sicAccount.sicCommPriKey));
+      let obj = JSON.parse(eccService.decrypt(accountInfo.value,sicAccount.account.accountInfo.priKey));
       email = obj.email;
     }catch (error){
 
@@ -206,7 +206,11 @@ async function setAccountMobile(name,mobile,country = 86) {
     email:email
   });
 
-  option.value = eccService.encrypt(valStr,eccService.privateToPublic(sicAccount.account.creator.priKey));//
+  try{
+      option.value = eccService.encrypt(valStr,eccService.privateToPublic(sicAccount.account.accountInfo.priKey));//
+  }catch (error){
+    console.info(error)
+  }
 
   let code = sic.contract.account.code;
   let contract = await getContract(code,sicAccount.account.accountInfo.priKey);

@@ -1,5 +1,5 @@
 const sicecc = require('sic-ecies');
-var Eos = require('eosjs-ecc');
+const Eos = require('eosjs');
 
 function encrypt(message,eccPublic) {
   return sicecc().encrypt(message,eccPublic);
